@@ -1,0 +1,55 @@
+n = int(input("How many data points do you have? "))
+
+real_answers = []
+my_predictions = []
+
+print(f"Give me {n} pairs:")
+for i in range(n):
+    print(f"Number {i+1}:")
+    real = int(input("  What was the real answer (0 or 1)? "))
+    guess = int(input("  What did you guess (0 or 1)? "))
+    real_answers.append(real)
+    my_predictions.append(guess)
+
+print(f"\nOkay let me count everything...")
+
+correct_positive = 0
+wrong_positive = 0  
+missed_positive = 0
+correct_negative = 0
+
+for i in range(n):
+    if real_answers[i] == 1 and my_predictions[i] == 1:
+        correct_positive = correct_positive + 1
+    elif real_answers[i] == 0 and my_predictions[i] == 1:
+        wrong_positive = wrong_positive + 1
+    elif real_answers[i] == 1 and my_predictions[i] == 0:
+        missed_positive = missed_positive + 1
+    else:
+        correct_negative = correct_negative + 1
+
+print(f"Correctly predicted positive: {correct_positive}")
+print(f"Wrongly predicted positive: {wrong_positive}")
+print(f"Missed positive: {missed_positive}")
+print(f"Correctly predicted negative: {correct_negative}")
+
+total_predicted_positive = correct_positive + wrong_positive
+total_actual_positive = correct_positive + missed_positive
+
+if total_predicted_positive > 0:
+    precision = correct_positive / total_predicted_positive
+    print(f"\nPrecision = {correct_positive} / {total_predicted_positive} = {precision}")
+else:
+    precision = 0
+    print(f"\nPrecision = 0 (no positive predictions)")
+
+if total_actual_positive > 0:
+    recall = correct_positive / total_actual_positive
+    print(f"Recall = {correct_positive} / {total_actual_positive} = {recall}")
+else:
+    recall = 0
+    print(f"Recall = 0 (no positive examples)")
+
+print(f"\nYour data:")
+for i in range(n):
+    print(f"{i+1}: Real={real_answers[i]}, Predicted={my_predictions[i]}")
